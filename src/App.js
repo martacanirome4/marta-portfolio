@@ -117,7 +117,7 @@ const Portfolio = () => {
         <div className="text-center z-10 px-6">
           <div className="mb-8">
             <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
-              Marta Canino Romero
+              Marta Canino
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-6">
               Computer Engineering Student & ML Researcher
@@ -322,7 +322,7 @@ const Portfolio = () => {
               <span>LinkedIn</span>
             </a>
             <a
-              href="mailto:martacaninoromero@gmailg.com"
+              href="mailto:martacaninoromero@gmail.com"
               className="flex items-center space-x-3 bg-purple-600 hover:bg-purple-500 px-6 py-4 rounded-xl transition-colors"
             >
               <Mail className="w-6 h-6" />
