@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Award, Telescope, Brain, Code, Database, Cpu } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Award, Telescope, Brain, Database, Cpu } from 'lucide-react';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [isVisible, setIsVisible] = useState({});
+  const [setIsVisible] = useState({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
