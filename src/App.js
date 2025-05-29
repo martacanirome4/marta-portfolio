@@ -320,7 +320,7 @@ const Portfolio = () => {
               <span>LinkedIn</span>
             </a>
             <a
-              href="mailto:martacaninoromero@gmail.com"
+              href="mailto:martacaninoromero@gmailg.com"
               className="flex items-center space-x-3 bg-purple-600 hover:bg-purple-500 px-6 py-4 rounded-xl transition-colors"
             >
               <Mail className="w-6 h-6" />
