@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ExternalLink, Award, Telescope, Brain, Database, Cpu, ArrowRight, Download } from 'lucide-react';
 
