@@ -1,11 +1,11 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-
-import { Github, Linkedin, Mail, ExternalLink, Award, Telescope, Brain, Database, Cpu } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Award, Telescope, Brain, Database, Cpu, ArrowRight, Download } from 'lucide-react';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isVisible, setIsVisible] = useState({});
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,83 +27,104 @@ const Portfolio = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    const handleScroll = () => setScrollY(window.scrollY);
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const projects = [
     {
       title: "Dark Matter Detection ML",
-      description: "Bachelor's Thesis on identifying unclassified sources as potential dark matter candidates using supervised ML and anomaly detection on NASA Fermi-LAT telescope data.",
+      description: "Bachelor's Thesis exploring the cosmic unknown through machine learning. Identifying unclassified sources as potential dark matter candidates using NASA Fermi-LAT telescope data.",
       tech: ["Python", "Machine Learning", "Astrophysics", "Data Science"],
       link: "https://github.com/martacanirome4/DarkMatter_ML_TFG",
-      icon: <Telescope className="w-6 h-6" />,
+      icon: <Telescope className="w-5 h-5" />,
       featured: true,
-      color: "from-purple-600 to-blue-600"
+      year: "2025"
     },
     {
       title: "Inditex Talent-Match",
-      description: "🏆 Winner of Inditex Tech Challenge 2025! Vacancy-employee matching and ranking engine using keyword analysis and TF-IDF algorithms.",
+      description: "Winner of Inditex Tech Challenge 2025. An intelligent matching engine that bridges talent with opportunity using sophisticated NLP and TF-IDF algorithms.",
       tech: ["Python", "NLP", "TF-IDF", "Machine Learning"],
       link: "https://github.com/martacanirome4/talent-match-refined",
-      icon: <Award className="w-6 h-6" />,
+      icon: <Award className="w-5 h-5" />,
       featured: true,
-      color: "from-green-500 to-teal-500"
+      year: "2025"
     },
     {
       title: "MusicHub API",
-      description: "Comprehensive music API integrating Spotify, OpenAI, and MongoDB for intelligent music recommendations and data management.",
-      tech: ["Node.js", "MongoDB", "Spotify API", "OpenAI", "REST API"],
+      description: "A symphonic blend of technology and artistry. Integrating Spotify, OpenAI, and MongoDB to create intelligent music recommendations.",
+      tech: ["Node.js", "MongoDB", "Spotify API", "OpenAI"],
       link: "https://github.com/martacanirome4/MusicHub",
-      icon: <Database className="w-6 h-6" />,
       featured: false,
-      color: "from-pink-500 to-rose-500"
+      year: "2024"
     },
     {
       title: "DistributedDevHub",
-      description: "Distributed systems project implementing IPC, Sockets, and TDD-based communication patterns for scalable development environments.",
-      tech: ["Distributed Systems", "IPC", "Sockets", "TDD", "Python"],
+      description: "Architecting the future of collaborative development. A distributed systems implementation using IPC, Sockets, and TDD-based communication patterns.",
+      tech: ["Distributed Systems", "IPC", "Sockets", "TDD"],
       link: "https://github.com/martacanirome4/DistributedDevHub",
-      icon: <Cpu className="w-6 h-6" />,
       featured: false,
-      color: "from-orange-500 to-red-500"
-    },
-    {
-      title: "Mushroom Predictor",
-      description: "Machine learning model for predicting mushroom edibility with high accuracy using feature engineering and classification algorithms.",
-      tech: ["Python", "Scikit-learn", "Data Analysis", "Classification"],
-      link: "https://github.com/martacanirome4/MushroomEdibilityPredictor",
-      icon: <Brain className="w-6 h-6" />,
-      featured: false,
-      color: "from-amber-500 to-yellow-500"
+      year: "2024"
     }
   ];
 
-  const skills = [
-    { category: "Machine Learning", items: ["Python", "Scikit-learn", "TensorFlow", "Data Science", "Anomaly Detection"] },
-    { category: "Backend Development", items: ["Node.js", "Python", "REST APIs", "MongoDB", "Distributed Systems"] },
-    { category: "Data & Analytics", items: ["NASA Fermi-LAT", "TF-IDF", "NLP", "Data Visualization", "Statistical Analysis"] },
-    { category: "Tools & Technologies", items: ["Git", "Docker", "Linux", "IPC/Sockets", "TDD"] }
-  ];
+  const skills = {
+    "Machine Learning & AI": ["Python", "Scikit-learn", "Data Science", "Anomaly Detection", "NLP"],
+    "Backend Development": ["Node.js", "Python", "REST APIs", "SQL", "MongoDB"],
+    "Data & Analytics": ["Data Visualization", "Pandas", "NASA Fermi-LAT", "Statistical Analysis"],
+    "Infrastructure": ["Git", "Docker", "Linux", "Distributed Systems", "TDD"]
+  };
 
-  const ScrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId) => {
     document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     setActiveSection(sectionId);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+    <div className="min-h-screen bg-stone-50 text-stone-900">
+      {/* Subtle grid background */}
+      <div className="fixed inset-0 opacity-[0.015] pointer-events-none">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }} />
+      </div>
+
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-black/20 backdrop-blur-lg z-50 border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+      <nav className="fixed top-0 w-full bg-stone-50/90 backdrop-blur-sm z-40 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-8 py-6">
           <div className="flex justify-between items-center">
-            <div className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Marta Canino
+            <div className="text-lg tracking-widest font-light uppercase">
+              Marta Canino Romero
             </div>
-            <div className="hidden md:flex space-x-8">
-              {['home', 'about', 'projects', 'skills', 'contact'].map((section) => (
+            <div className="hidden md:flex space-x-12">
+              {[
+                { id: 'home', label: 'Home' },
+                { id: 'about', label: 'About' },
+                { id: 'work', label: 'Work' },
+                { id: 'contact', label: 'Contact' }
+              ].map((item) => (
                 <button
-                  key={section}
-                  onClick={() => ScrollToSection(section)}
-                  className={`capitalize transition-colors ${activeSection === section ? 'text-blue-400' : 'text-gray-300 hover:text-white'}`}
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`text-sm uppercase tracking-wider transition-all duration-300 ${
+                    activeSection === item.id 
+                      ? 'text-stone-900' 
+                      : 'text-stone-500 hover:text-stone-900'
+                  }`}
                 >
-                  {section}
+                  {item.label}
                 </button>
               ))}
             </div>
@@ -112,180 +133,163 @@ const Portfolio = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
-        <div className="text-center z-10 px-6">
-          <div className="mb-8">
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
-              Marta Canino
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-6">
-              Computer Engineering Student & ML Researcher
-            </p>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
-              Passionate about machine learning, astrophysics, and building innovative solutions. 
-              Currently exploring dark matter detection through advanced ML techniques.
-            </p>
-          </div>
-          
-          <div className="flex justify-center space-x-6 mb-12">
-            <a href="https://github.com/martacanirome4" className="bg-gray-800 hover:bg-gray-700 p-4 rounded-full transition-colors">
-              <Github className="w-6 h-6" />
-            </a>
-            <a href="https://www.linkedin.com/in/martacaninoromero/" className="bg-blue-600 hover:bg-blue-500 p-4 rounded-full transition-colors">
-              <Linkedin className="w-6 h-6" />
-            </a>
-            <a href="mailto:martacaninoromero@gmail.com" className="bg-purple-600 hover:bg-purple-500 p-4 rounded-full transition-colors">
-              <Mail className="w-6 h-6" />
-            </a>
-          </div>
-
-          <button 
-            onClick={() => ScrollToSection('projects')}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105"
-          >
-            View My Work
-          </button>
+      <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-100/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-stone-200/20 rounded-full blur-3xl" />
         </div>
-
-        {/* Floating particles effect */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-                animationDuration: `${2 + Math.random() * 3}s`
-              }}
-            />
-          ))}
+        
+        <div className="text-center z-10 px-8 max-w-5xl">
+          <h1 className="text-6xl md:text-8xl font-extralight tracking-tight mb-8">
+            <span className="block">Marta</span>
+            <span className="block text-5xl md:text-7xl italic font-serif text-stone-600">Canino Romero</span>
+          </h1>
+          
+          <div className="w-32 h-px bg-stone-300 mx-auto mb-8" />
+          
+          <p className="text-xl md:text-2xl font-light text-stone-700 mb-4 tracking-wide">
+            Computer Engineering · Machine Learning Research
+          </p>
+          
+          <p className="text-base md:text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed font-light mb-12">
+            Currently pursuing my thesis in dark matter detection through machine learning, 
+            applying computational intelligence to NASA Fermi-LAT data. Winner of the Inditex Tech Challenge 2025.
+          </p>
+          
+          <div className="flex justify-center items-center space-x-8">
+            <a href="https://github.com/martacanirome4" 
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              <Github className="w-5 h-5" />
+            </a>
+            <a href="https://www.linkedin.com/in/martacaninoromero/" 
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              <Linkedin className="w-5 h-5" />
+            </a>
+            <a href="mailto:martacaninoromero@gmail.com" 
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              <Mail className="w-5 h-5" />
+            </a>
+            <a href="/Marta_Canino_Romero_CV.pdf"
+               download="Marta_Canino_Romero_CV.pdf"
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              <Download className="w-5 h-5" />
+            </a>
+          </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            About Me
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section id="about" className="py-32 px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-24 items-start">
             <div>
-              <p className="text-lg text-gray-300 mb-6">
-                I'm a final-year Computer Engineering student based in Spain with a deep passion for machine learning, 
-                astrophysics, and innovative software development. Currently working on my Bachelor's Thesis focusing 
-                on dark matter detection using advanced ML techniques.
-              </p>
-              <p className="text-lg text-gray-300 mb-6">
-                Recently won the <span className="text-green-400 font-semibold">Inditex Tech Challenge 2025</span> with 
-                an innovative talent-matching solution, demonstrating my ability to apply cutting-edge technology to 
-                real-world business problems.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <span className="bg-blue-500/20 text-blue-300 px-4 py-2 rounded-full">ML Research</span>
-                <span className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full">Astrophysics</span>
-                <span className="bg-green-500/20 text-green-300 px-4 py-2 rounded-full">Full-Stack Dev</span>
+              <h2 className="text-4xl font-extralight mb-12 tracking-wide">About</h2>
+              <div className="space-y-6 text-stone-700 leading-relaxed">
+                <p className="text-lg font-light">
+                  Final-year Computer Engineering student in Madrid, where rigorous engineering meets 
+                  exploratory research. Currently immersed in my Bachelor's Thesis, applying machine 
+                  learning techniques to NASA Fermi-LAT observations to hunt for dark matter signatures.
+                </p>
+                <p>
+                  Recently won the Inditex Tech Challenge 2025 with an innovative talent-matching solution, 
+                  demonstrating the practical application of cutting-edge technology to real-world challenges.
+                </p>
+                <p>
+                  My work spans from astrophysics research to distributed systems architecture, always 
+                  pursuing elegant solutions to complex problems.
+                </p>
               </div>
             </div>
-            <div className="relative">
-              <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-8 rounded-2xl border border-white/10">
-                <div className="text-center">
-                  <div className="text-3xl mb-4">🌠</div>
-                  <p className="text-gray-300 italic">
-                    "Somewhere, something incredible is waiting to be known."
-                  </p>
-                  <p className="text-gray-400 mt-2">— Carl Sagan</p>
+            
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-sm uppercase tracking-widest text-stone-500 mb-4">Recognition</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between py-3 border-b border-stone-200">
+                    <span className="font-light">Inditex Tech Challenge Winner</span>
+                    <span className="text-sm text-stone-500">2025</span>
+                  </div>
+                  <div className="flex items-center justify-between py-3 border-b border-stone-200">
+                    <span className="font-light">NASA Fermi-LAT Research</span>
+                    <span className="text-sm text-stone-500">Current</span>
+                  </div>
                 </div>
+              </div>
+              
+              <div>
+                <h3 className="text-sm uppercase tracking-widest text-stone-500 mb-4">Location</h3>
+                <p className="font-light">Madrid, Spain</p>
+                <p className="text-sm text-stone-500 mt-1">Open to opportunities across Europe</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-20 px-6 bg-black/20">
+      {/* Work Section */}
+      <section id="work" className="py-32 px-8 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Featured Projects
-          </h2>
-          <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
-            A showcase of my recent work spanning machine learning research, full-stack development, and innovative solutions.
-          </p>
+          <h2 className="text-4xl font-extralight mb-16 tracking-wide">Selected Work</h2>
           
-          <div className="grid gap-8">
+          <div className="space-y-8">
             {projects.map((project, index) => (
-              <div
+              <a
                 key={index}
-                className={`group relative bg-gradient-to-r ${project.color} p-[1px] rounded-2xl transition-all duration-300 hover:scale-[1.02] ${
-                  project.featured ? 'md:col-span-2' : ''
-                }`}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block group"
               >
-                <div className="bg-gray-900/90 backdrop-blur-sm p-8 rounded-2xl h-full">
+                <div className={`py-12 ${index !== projects.length - 1 ? 'border-b border-stone-200' : ''}`}>
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <div className={`bg-gradient-to-r ${project.color} p-3 rounded-xl`}>
-                        {project.icon}
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-white">{project.title}</h3>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-4 mb-3">
+                        <h3 className="text-2xl font-light">{project.title}</h3>
                         {project.featured && (
-                          <span className="inline-block bg-yellow-500/20 text-yellow-300 px-3 py-1 rounded-full text-sm mt-1">
-                            Featured
-                          </span>
+                          <span className="text-xs uppercase tracking-wider text-amber-600">Featured</span>
                         )}
                       </div>
+                      <p className="text-stone-600 leading-relaxed max-w-3xl mb-6">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-3">
+                        {project.tech.map((tech, techIndex) => (
+                          <span key={techIndex} className="text-sm text-stone-500">
+                            {tech}{techIndex < project.tech.length - 1 && ' ·'}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-white/10 hover:bg-white/20 p-2 rounded-lg transition-colors"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                    </a>
-                  </div>
-                  
-                  <p className="text-gray-300 mb-6 leading-relaxed">{project.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="bg-white/10 text-gray-300 px-3 py-1 rounded-full text-sm"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                    <div className="flex items-center space-x-4 text-stone-400">
+                      <span className="text-sm">{project.year}</span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Technical Skills
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {skills.map((skillGroup, index) => (
-              <div key={index} className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10">
-                <h3 className="text-xl font-semibold mb-4 text-blue-300">{skillGroup.category}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {skillGroup.items.map((skill, skillIndex) => (
-                    <span
-                      key={skillIndex}
-                      className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-gray-200 px-3 py-2 rounded-lg text-sm border border-white/10"
-                    >
+      <section className="py-32 px-8">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-extralight mb-16 tracking-wide">Technical Expertise</h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {Object.entries(skills).map(([category, items], index) => (
+              <div key={index}>
+                <h3 className="text-sm uppercase tracking-widest text-stone-500 mb-6">
+                  {category}
+                </h3>
+                <ul className="space-y-3">
+                  {items.map((skill, skillIndex) => (
+                    <li key={skillIndex} className="font-light text-stone-700">
                       {skill}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>
@@ -293,60 +297,40 @@ const Portfolio = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6 bg-black/20">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Let's Connect
-          </h2>
-          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-            I'm always excited to discuss new opportunities, innovative projects, or collaborate on cutting-edge research.
+      <section id="contact" className="py-32 px-8 bg-stone-100">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-extralight mb-8 tracking-wide">Contact</h2>
+          <p className="text-lg text-stone-600 mb-12 max-w-2xl mx-auto font-light">
+            Open to opportunities in machine learning research, software engineering, and innovative technology projects.
           </p>
           
-          <div className="flex justify-center space-x-8 mb-12">
-            <a
-              href="https://github.com/martacanirome4"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-3 bg-gray-800 hover:bg-gray-700 px-6 py-4 rounded-xl transition-colors"
-            >
-              <Github className="w-6 h-6" />
-              <span>GitHub</span>
+          <div className="flex justify-center items-center space-x-12 text-sm uppercase tracking-wider">
+            <a href="https://github.com/martacanirome4" 
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              Github
             </a>
-            <a
-              href="https://www.linkedin.com/in/martacaninoromero/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-3 bg-blue-600 hover:bg-blue-500 px-6 py-4 rounded-xl transition-colors"
-            >
-              <Linkedin className="w-6 h-6" />
-              <span>LinkedIn</span>
+            <a href="https://www.linkedin.com/in/martacaninoromero/" 
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              LinkedIn
             </a>
-            <a
-              href="mailto:martacaninoromero@gmail.com"
-              className="flex items-center space-x-3 bg-purple-600 hover:bg-purple-500 px-6 py-4 rounded-xl transition-colors"
-            >
-              <Mail className="w-6 h-6" />
-              <span>Email</span>
+            <a href="mailto:martacaninoromero@gmail.com" 
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              Email
             </a>
-          </div>
-
-          <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-white/10">
-            <p className="text-gray-300 mb-4">
-              📍 Based in Spain | Open to opportunities across Europe and beyond
-            </p>
-            <p className="text-gray-400">
-              Available for internships, graduate positions, and exciting projects in ML, astrophysics, and software development.
-            </p>
+            <a href="/Marta_Canino_Romero_CV.pdf"
+               download="Marta_Canino_Romero_CV.pdf"
+               className="text-stone-600 hover:text-stone-900 transition-colors">
+              CV
+            </a>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-white/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-gray-400">
-            © 2025 Marta Canino Romero. Built with React and passion for innovation.
-          </p>
+      <footer className="py-8 px-8 border-t border-stone-200">
+        <div className="max-w-6xl mx-auto flex justify-between items-center text-sm text-stone-500">
+          <span>© 2025 Marta Canino Romero</span>
+          <span>Madrid</span>
         </div>
       </footer>
     </div>

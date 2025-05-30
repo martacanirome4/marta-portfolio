@@ -1,41 +1,39 @@
 /* App.css */
-/* include tailwindcss styles */
-@import 'tailwindcss/tailwind.css';
+/* Note: Tailwind CSS is loaded via CDN in index.html - no need to import here */
+
+/* App component styles */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  text-align: left; /* Changed from center to left for better portfolio layout */
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Remove any default margins/padding that might interfere */
+.App * {
+  box-sizing: border-box;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Ensure sections stack properly */
+.App section {
+  position: relative;
+  width: 100%;
+}
+
+/* Custom utility classes for gradients (fallback if Tailwind coral colors don't work) */
+.bg-coral-gradient {
+  background: linear-gradient(135deg, #f91616 0%, #ea0c0c 100%);
+}
+
+.text-coral-gradient {
+  background: linear-gradient(135deg, #f91616 0%, #ea100c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #f91616; /* Fallback for browsers that don't support gradient text */
+}
+
+/* Ensure smooth animations */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
